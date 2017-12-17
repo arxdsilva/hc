@@ -1,6 +1,8 @@
 package main
 
-import check "gopkg.in/check.v1"
+import (
+	check "gopkg.in/check.v1"
+)
 
 func (s *S) TestStripInput(c *check.C) {
 	dSett := dSettings{}
@@ -20,4 +22,16 @@ func (s *S) TestSetGrid(c *check.C) {
 	err = dSett.setGrid("03x10")
 	c.Assert(err, check.IsNil)
 	c.Assert(len(dSett.grid), check.Equals, 2)
+}
+
+func (s *S) TestValidateGrid(c *check.C) {
+	valid, err := validateGrid("03x20")
+	c.Assert(err, check.IsNil)
+	c.Assert(valid, check.Equals, true)
+	valid, err = validateGrid("")
+	c.Assert(err, check.NotNil)
+	c.Assert(valid, check.Equals, false)
+	valid, err = validateGrid("03a20")
+	c.Assert(err, check.IsNil)
+	c.Assert(valid, check.Equals, false)
 }
