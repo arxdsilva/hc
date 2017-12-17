@@ -3,11 +3,21 @@ package main
 import check "gopkg.in/check.v1"
 
 func (s *S) TestStripInput(c *check.C) {
-	_, err := dSettingsFromInput("")
+	dSett := dSettings{}
+	err := dSett.dSettingsFromInput("")
 	c.Assert(err, check.NotNil)
-	d, err := dSettingsFromInput("0315ODEDEFFDFFD")
-	c.Assert(len(d.coords), check.Equals, 2)
-	c.Assert(d.camPosition, check.NotNil)
-	c.Assert(d.commands, check.NotNil)
+	err = dSett.dSettingsFromInput("0315ODEDEFFDFFD")
+	c.Assert(len(dSett.coords), check.Equals, 2)
+	c.Assert(dSett.camPosition, check.NotNil)
+	c.Assert(dSett.commands, check.NotNil)
 	c.Assert(err, check.IsNil)
+}
+
+func (s *S) TestSetGrid(c *check.C) {
+	dSett := dSettings{}
+	err := dSett.setGrid("")
+	c.Assert(err, check.NotNil)
+	err = dSett.setGrid("03x10")
+	c.Assert(err, check.IsNil)
+	c.Assert(len(dSett.grid), check.Equals, 2)
 }
