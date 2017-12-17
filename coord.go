@@ -52,3 +52,22 @@ func (d *dSettings) setGrid(s string) (err error) {
 	d.grid = append(d.grid, gridY)
 	return
 }
+
+func validateGrid(g string) (b bool, err error) {
+	if len(g) < 5 {
+		return false, errors.New("invalid grid size")
+	}
+	b = strings.Contains(g, "x")
+	if !b {
+		return b, err
+	}
+	_, err = strconv.ParseInt(g[:2], 10, 64)
+	if err != nil {
+		return false, err
+	}
+	_, err = strconv.ParseInt(g[3:], 10, 64)
+	if err != nil {
+		return false, err
+	}
+	return
+}
