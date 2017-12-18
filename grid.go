@@ -6,8 +6,11 @@ import (
 	"strings"
 )
 
+var ErrAlreadyRegistered = errors.New("d already registered to start in this x and y position")
+
 type grid struct {
-	x, y int64
+	x, y            int64
+	droneStartPoint map[int64][]int64
 }
 
 func (g *grid) setGrid(s string) (err error) {
@@ -25,5 +28,19 @@ func (g *grid) setGrid(s string) (err error) {
 	}
 	g.x = gridX
 	g.y = gridY
+	return
+}
+
+func (g *grid) registerD(d dSettings) (err error) {
+	_, ok := g.droneStartPoint[d.posX]
+	if !ok {
+		g.droneStartPoint[d.posX] = append(g.droneStartPoint[d.posX], d.posY)
+		return
+	}
+	for _, v := range g.droneStartPoint[d.posX] {
+		if v == d.posY {
+			return ErrAlreadyRegistered
+		}
+	}
 	return
 }

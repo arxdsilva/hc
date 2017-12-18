@@ -17,8 +17,13 @@ func startDsInGrid(g grid) (err error) {
 		if err != nil {
 			return
 		}
+		err = g.registerD(d)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 		Ds = append(Ds, d)
-		fmt.Printf("- D initialized at position [%v,%v] facing \"%v\", with sequence \"%v\" \n", d.posX, d.posY, camPos[d.camPosition], d.commands)
+		fmt.Printf("- D initialized at position [%v, %v] facing \"%v\", with sequence \"%v\" \n", d.posX, d.posY, camPos[d.camPosition], d.commands)
 	}
 	fmt.Println("...exiting\n\n")
 	fmt.Println("Report:")
