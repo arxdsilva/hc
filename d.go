@@ -18,7 +18,13 @@ func startDsInGrid(g grid) (err error) {
 			return
 		}
 		Ds = append(Ds, d)
+		fmt.Printf("- D initialized at position [%v,%v] facing \"%v\", with sequence \"%v\" \n", d.posX, d.posY, camPos[d.camPosition], d.commands)
 	}
 	fmt.Println("...exiting\n\n")
+	fmt.Println("Report:")
+	for _, d := range Ds {
+		d.work(g)
+		d.genReport()
+	}
 	return
 }
