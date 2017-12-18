@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+var Ds = []dSettings{}
+
 func startDsInGrid(g grid) (err error) {
 	for {
 		d := dSettings{}
@@ -9,9 +11,14 @@ func startDsInGrid(g grid) (err error) {
 		var response string
 		_, err = fmt.Scanln(&response)
 		if err != nil {
+			break
+		}
+		err = d.dSettingsFromInput(response)
+		if err != nil {
 			return
 		}
-		d.dSettingsFromInput(response)
+		Ds = append(Ds, d)
 	}
+	fmt.Println("...exiting\n\n")
 	return
 }
