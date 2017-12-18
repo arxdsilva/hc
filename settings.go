@@ -102,8 +102,51 @@ func (d *dSettings) rotateCam(r string) {
 	}
 }
 
-func (d *dSettings) work() {
+func (d *dSettings) work(g grid) {
 	for {
+		d.takePhoto(g)
+	}
+}
 
+func (d *dSettings) takePhoto(g grid) {
+	mapXYPosition(d.posX-1, *d, g)
+	mapXYPosition(d.posX, *d, g)
+	mapXYPosition(d.posX+1, *d, g)
+}
+
+func mapXYPosition(pos int64, d dSettings, g grid) {
+	if ((pos - 1) > 0) && (pos <= d.posX) {
+		_, ok := mappedGrid[pos]
+		if !ok {
+			if (d.posY - 1) > 0 {
+				mappedGrid[pos] = append(mappedGrid[pos], d.posY-1)
+			}
+			if d.posX != pos {
+				mappedGrid[pos] = append(mappedGrid[pos], d.posY)
+			}
+			if (d.posY + 1) <= (g.y) {
+				mappedGrid[pos] = append(mappedGrid[pos], d.posY+1)
+			}
+		} else {
+			var ypos, yM1, yP1 bool
+			for _, y := range mappedGrid[pos] {
+				if y == d.posY {
+					ypos = true
+				} else if y == d.posY-1 {
+					yM1 = true
+				} else if y == d.posY+1 {
+					yP1 = true
+				}
+			}
+			if (!ypos) && (pos != d.posX) {
+				mappedGrid[pos] = append(mappedGrid[pos], d.posY)
+			}
+			if !yM1 {
+				mappedGrid[pos] = append(mappedGrid[pos], d.posY-1)
+			}
+			if !yP1 {
+				mappedGrid[pos] = append(mappedGrid[pos], d.posY+1)
+			}
+		}
 	}
 }
