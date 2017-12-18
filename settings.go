@@ -8,8 +8,10 @@ import (
 )
 
 var ErrInvalidGrid = errors.New("Invalid Grid")
+var id = 1
 
 type dSettings struct {
+	id          int
 	posX        int64
 	posY        int64
 	gridMaxX    int64
@@ -37,25 +39,13 @@ func (d *dSettings) dSettingsFromInput(s string) (err error) {
 	d.posY = yInt
 	d.camPosition = string(s[4])
 	d.commands = s[5:]
+	d.id = id
+	id++
 	return
 }
 
-func (d *dSettings) setGrid(s string) (err error) {
-	if len(s) == 0 {
-		return errors.New("input cannot be empty")
-	}
-	gridSplitted := strings.Split(s, "x")
-	gridX, err := strconv.ParseInt(gridSplitted[0], 10, 64)
-	if err != nil {
-		return
-	}
-	gridY, err := strconv.ParseInt(gridSplitted[1], 10, 64)
-	if err != nil {
-		return
-	}
-	d.gridMaxX = gridX
-	d.gridMaxY = gridY
-	return
+func dShutDown() {
+	id = 1
 }
 
 func (d *dSettings) calcMinDFromSettings() int64 {
