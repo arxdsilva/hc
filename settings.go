@@ -76,3 +76,34 @@ func (d *dSettings) genReport() {
 	fmt.Printf("  - Direction: %v\n", camPos[d.camPosition])
 	fmt.Printf("  - Pictures taken: %v\n\n", d.picturesTaken)
 }
+
+func (d *dSettings) rotateCam(r string) {
+	switch r {
+	case "D":
+		if d.camPosition == "N" {
+			d.camPosition = "L"
+		} else if d.camPosition == "S" {
+			d.camPosition = "O"
+		} else if d.camPosition == "L" {
+			d.camPosition = "S"
+		} else if d.camPosition == "O" {
+			d.camPosition = "N"
+		}
+	case "E":
+		if d.camPosition == "N" {
+			d.camPosition = "O"
+		} else if d.camPosition == "S" {
+			d.camPosition = "L"
+		} else if d.camPosition == "L" {
+			d.camPosition = "N"
+		} else if d.camPosition == "O" {
+			d.camPosition = "S"
+		}
+	}
+}
+
+func (d *dSettings) work() {
+	for {
+
+	}
+}
