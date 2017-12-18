@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+const InvalidGrid = errors.New("Invalid Grid")
+
 type dSettings struct {
 	grid        []int64
 	coords      []int64
@@ -53,21 +55,21 @@ func (d *dSettings) setGrid(s string) (err error) {
 	return
 }
 
-func validateGrid(g string) (b bool, err error) {
+func validateGrid(g string) (err error) {
 	if len(g) < 5 {
-		return false, errors.New("invalid grid size")
+		return errors.New("invalid grid size")
 	}
-	b = strings.Contains(g, "x")
+	b := strings.Contains(g, "x")
 	if !b {
-		return b, err
+		return InvalidGrid
 	}
 	_, err = strconv.ParseInt(g[:2], 10, 64)
 	if err != nil {
-		return false, err
+		return InvalidGrid
 	}
 	_, err = strconv.ParseInt(g[3:], 10, 64)
 	if err != nil {
-		return false, err
+		return InvalidGrid
 	}
 	return
 }

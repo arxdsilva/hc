@@ -25,13 +25,10 @@ func (s *S) TestSetGrid(c *check.C) {
 }
 
 func (s *S) TestValidateGrid(c *check.C) {
-	valid, err := validateGrid("03x20")
+	err := validateGrid("03x20")
 	c.Assert(err, check.IsNil)
-	c.Assert(valid, check.Equals, true)
-	valid, err = validateGrid("")
+	err = validateGrid("")
 	c.Assert(err, check.NotNil)
-	c.Assert(valid, check.Equals, false)
-	valid, err = validateGrid("03a20")
+	err = validateGrid("03a20")
 	c.Assert(err, check.IsNil)
-	c.Assert(valid, check.Equals, false)
 }
