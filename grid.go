@@ -6,7 +6,10 @@ import (
 	"strings"
 )
 
-var ErrAlreadyRegistered = errors.New("d already registered to start in this x and y position")
+var (
+	ErrAlreadyRegistered       = errors.New("d already registered to start in this x and y position")
+	ErrCannotRegisterOutOfGrid = errors.New("cannot register d outside of the grid")
+)
 
 type grid struct {
 	x, y            int64
@@ -28,10 +31,14 @@ func (g *grid) setGrid(s string) (err error) {
 	}
 	g.x = gridX
 	g.y = gridY
+	g.droneStartPoint = make(map[int64][]int64)
 	return
 }
 
 func (g *grid) registerD(d dSettings) (err error) {
+	if (d.posX > g.x) || (d.posY > g.y) {
+		return ErrCannotRegisterOutOfGrid
+	}
 	_, ok := g.droneStartPoint[d.posX]
 	if !ok {
 		g.droneStartPoint[d.posX] = append(g.droneStartPoint[d.posX], d.posY)
@@ -42,5 +49,6 @@ func (g *grid) registerD(d dSettings) (err error) {
 			return ErrAlreadyRegistered
 		}
 	}
+	g.droneStartPoint[d.posX] = append(g.droneStartPoint[d.posX], d.posY)
 	return
 }
