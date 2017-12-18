@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	check "gopkg.in/check.v1"
 )
 
@@ -46,7 +44,6 @@ func (s *S) TestMapXYPosition(c *check.C) {
 	c.Assert(len(mappedGrid[2]), check.Equals, 2)
 	d.posY = 3
 	mapXYPosition(d.posX, d, g)
-	fmt.Println(mappedGrid)
 	c.Assert(len(mappedGrid[2]), check.Equals, 4)
 }
 
