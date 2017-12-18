@@ -40,6 +40,7 @@ func (d *dSettings) dSettingsFromInput(s string) (err error) {
 	d.commands = s[5:]
 	d.id = id
 	id++
+	d.picturesTaken = 1
 	return
 }
 
@@ -103,8 +104,33 @@ func (d *dSettings) rotateCam(r string) {
 }
 
 func (d *dSettings) work(g grid) {
-	for {
+	for _, cmd := range d.commands {
 		d.takePhoto(g)
+		d.processCmd(string(cmd), g)
+	}
+}
+
+func (d *dSettings) processCmd(cmd string, g grid) {
+	switch cmd {
+	case "F":
+		d.fly(g)
+	default:
+		d.rotateCam(cmd)
+	}
+}
+
+func (d *dSettings) fly(g grid) {
+	if (d.camPosition == "N") && ((d.posY + 1) <= g.y) {
+		d.posY++
+	}
+	if (d.camPosition == "S") && ((d.posY - 1) >= 0) {
+		d.posY--
+	}
+	if (d.camPosition == "L") && ((d.posX + 1) <= g.x) {
+		d.posX++
+	}
+	if (d.camPosition == "O") && ((d.posX - 1) >= 0) {
+		d.posX--
 	}
 }
 
@@ -112,6 +138,7 @@ func (d *dSettings) takePhoto(g grid) {
 	mapXYPosition(d.posX-1, *d, g)
 	mapXYPosition(d.posX, *d, g)
 	mapXYPosition(d.posX+1, *d, g)
+	d.picturesTaken++
 }
 
 func mapXYPosition(pos int64, d dSettings, g grid) {

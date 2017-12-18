@@ -49,3 +49,20 @@ func (s *S) TestMapXYPosition(c *check.C) {
 	fmt.Println(mappedGrid)
 	c.Assert(len(mappedGrid[2]), check.Equals, 4)
 }
+
+func (s *S) TestFly(c *check.C) {
+	d := dSettings{posX: 10, posY: 10, camPosition: "N"}
+	g := grid{x: 20, y: 10}
+	d.fly(g)
+	c.Assert(d.posY, check.Equals, int64(10))
+	d.camPosition = "S"
+	d.fly(g)
+	c.Assert(d.posY, check.Equals, int64(9))
+	d.posY = 0
+	d.fly(g)
+	c.Assert(d.posY, check.Equals, int64(0))
+	d.posX = 0
+	d.camPosition = "O"
+	d.fly(g)
+	c.Assert(d.posX, check.Equals, int64(0))
+}
