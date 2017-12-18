@@ -71,7 +71,6 @@ var camPos = map[string]string{
 }
 
 func (d *dSettings) genReport() {
-	fmt.Println("Report:")
 	fmt.Printf("- Drone: %v\n", d.id)
 	fmt.Printf("  - Final position: [%v,%v]\n", d.posX, d.posY)
 	fmt.Printf("  - Direction: %v\n", camPos[d.camPosition])
@@ -132,13 +131,13 @@ func (d *dSettings) fly(g grid) {
 	if (d.camPosition == "O") && ((d.posX - 1) >= 0) {
 		d.posX--
 	}
+	d.picturesTaken++
 }
 
 func (d *dSettings) takePhoto(g grid) {
 	mapXYPosition(d.posX-1, *d, g)
 	mapXYPosition(d.posX, *d, g)
 	mapXYPosition(d.posX+1, *d, g)
-	d.picturesTaken++
 }
 
 func mapXYPosition(pos int64, d dSettings, g grid) {

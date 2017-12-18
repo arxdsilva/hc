@@ -6,19 +6,20 @@ import (
 	"os"
 )
 
-var mappedGrid map[int64][]int64
+// mappedGrid represents the x value and y that has been mapped
+var mappedGrid = make(map[int64][]int64)
 
 func main() {
 	args := os.Args
-	if (len(args) == 0) || (len(args) > 1) {
+	if (len(args) == 0) || (len(args) > 2) {
 		log.Fatal("bot needs 1 grid")
 	}
-	err := validateGrid(args[0])
+	err := validateGrid(args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 	g := grid{}
-	err = g.setGrid(args[0])
+	err = g.setGrid(args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
