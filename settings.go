@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"math"
 	"strconv"
 	"strings"
 )
@@ -11,13 +10,12 @@ var ErrInvalidGrid = errors.New("Invalid Grid")
 var id = 1
 
 type dSettings struct {
-	id          int
-	posX        int64
-	posY        int64
-	gridMaxX    int64
-	gridMaxY    int64
-	commands    string
-	camPosition string
+	id            int
+	posX          int64
+	posY          int64
+	commands      string
+	camPosition   string
+	picturesTaken int
 }
 
 func (d *dSettings) dSettingsFromInput(s string) (err error) {
@@ -42,25 +40,6 @@ func (d *dSettings) dSettingsFromInput(s string) (err error) {
 	d.id = id
 	id++
 	return
-}
-
-func dShutDown() {
-	id = 1
-}
-
-func (d *dSettings) calcMinDFromSettings() int64 {
-	var smaller int64
-	if d.gridMaxX > d.gridMaxY {
-		smaller = d.gridMaxY
-	} else {
-		smaller = d.gridMaxX
-	}
-	minDNum := math.Abs(float64(smaller / 3.0))
-	remainder := smaller % 3.0
-	if remainder >= 1 {
-		minDNum++
-	}
-	return int64(minDNum)
 }
 
 func validateGrid(g string) (err error) {
