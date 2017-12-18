@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 )
@@ -16,10 +17,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	d := dSettings{}
-	err = d.setGrid(args[0])
+	g := grid{}
+	err = g.setGrid(args[0])
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Printf("Generating flying grid with dimensions of %vm by %vm\n", g.x, g.y)
+	err = startDsInGrid(g)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
