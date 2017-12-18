@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -55,6 +56,21 @@ func (d *dSettings) setGrid(s string) (err error) {
 	d.gridMaxX = gridX
 	d.gridMaxY = gridY
 	return
+}
+
+func (d *dSettings) calcMinDFromSettings() int64 {
+	var smaller int64
+	if d.gridMaxX > d.gridMaxY {
+		smaller = d.gridMaxY
+	} else {
+		smaller = d.gridMaxX
+	}
+	minDNum := math.Abs(float64(smaller / 3.0))
+	remainder := smaller % 3.0
+	if remainder >= 1 {
+		minDNum++
+	}
+	return int64(minDNum)
 }
 
 func validateGrid(g string) (err error) {
