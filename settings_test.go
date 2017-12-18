@@ -24,3 +24,14 @@ func (s *S) TestValidateGrid(c *check.C) {
 	err = validateGrid("03a20")
 	c.Assert(err, check.NotNil)
 }
+func (s *S) TestRotateCam(c *check.C) {
+	d := dSettings{camPosition: "N"}
+	d.rotateCam("D")
+	c.Assert(d.camPosition, check.Equals, "L")
+	d.camPosition = "S"
+	d.rotateCam("E")
+	c.Assert(d.camPosition, check.Equals, "L")
+	d.camPosition = "N"
+	d.rotateCam("E")
+	c.Assert(d.camPosition, check.Equals, "O")
+}
