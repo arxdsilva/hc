@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -59,4 +60,19 @@ func validateGrid(g string) (err error) {
 		return ErrInvalidGrid
 	}
 	return
+}
+
+var camPos = map[string]string{
+	"N": "Norte",
+	"S": "Sul",
+	"L": "Leste",
+	"O": "Oeste",
+}
+
+func (d *dSettings) genReport() {
+	fmt.Println("Report:")
+	fmt.Printf("- Drone: %v\n", d.id)
+	fmt.Printf("  - Final position: [%v,%v]\n", d.posX, d.posY)
+	fmt.Printf("  - Direction: %v\n", camPos[d.camPosition])
+	fmt.Printf("  - Pictures taken: %v\n\n", d.picturesTaken)
 }
