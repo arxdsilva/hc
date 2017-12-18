@@ -6,11 +6,13 @@ import (
 	"strings"
 )
 
-const InvalidGrid = errors.New("Invalid Grid")
+var ErrInvalidGrid = errors.New("Invalid Grid")
 
 type dSettings struct {
-	grid        []int64
-	coords      []int64
+	posX        int64
+	posY        int64
+	gridMaxX    int64
+	gridMaxY    int64
 	commands    string
 	camPosition string
 }
@@ -25,13 +27,13 @@ func (d *dSettings) dSettingsFromInput(s string) (err error) {
 	if err != nil {
 		return
 	}
-	d.coords = append(d.coords, xInt)
+	d.posX = xInt
 	y := s[2:4]
 	yInt, err := strconv.ParseInt(y, 10, 64)
 	if err != nil {
 		return
 	}
-	d.coords = append(d.coords, yInt)
+	d.posY = yInt
 	d.camPosition = string(s[4])
 	d.commands = s[5:]
 	return
@@ -50,8 +52,8 @@ func (d *dSettings) setGrid(s string) (err error) {
 	if err != nil {
 		return
 	}
-	d.grid = append(d.grid, gridX)
-	d.grid = append(d.grid, gridY)
+	d.gridMaxX = gridX
+	d.gridMaxY = gridY
 	return
 }
 
@@ -61,15 +63,15 @@ func validateGrid(g string) (err error) {
 	}
 	b := strings.Contains(g, "x")
 	if !b {
-		return InvalidGrid
+		return ErrInvalidGrid
 	}
 	_, err = strconv.ParseInt(g[:2], 10, 64)
 	if err != nil {
-		return InvalidGrid
+		return ErrInvalidGrid
 	}
 	_, err = strconv.ParseInt(g[3:], 10, 64)
 	if err != nil {
-		return InvalidGrid
+		return ErrInvalidGrid
 	}
 	return
 }
