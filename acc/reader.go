@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"io"
 	"os"
 	"strconv"
 )
@@ -41,9 +42,33 @@ func mapAccs(accs [][]string) (map[int]int, error) {
 	return accsMap, nil
 }
 
-func calcBalancesAfterTransactions(file string, accs map[int]int) map[int]int {
-	// read transacoes.csv
-	// for ea transaction
-	// calc balance from acc after transaction
-	return accs
+func calcBalancesAfterTransactions(file string, accs map[int]int) (map[int]int, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+	defer func() { err = f.Close() }()
+	r := csv.NewReader(bufio.NewReader(f))
+	for {
+		rec, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		accID, err := strconv.Atoi(rec[0])
+		if err != nil {
+			return nil, err
+		}
+		transaction, err := strconv.Atoi(rec[1])
+		if err != nil {
+			return nil, err
+		}
+		if _, ok := accs[accID]; !ok {
+			continue
+		}
+		accs[accID] = accs[accID] + transaction
+	}
+	return accs, err
 }
