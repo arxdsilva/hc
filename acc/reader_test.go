@@ -159,6 +159,8 @@ func Test_calcBalancesAfterTransactions(t *testing.T) {
 func Test_calculateBalance(t *testing.T) {
 	positiveTransacToAccs := `1,2000
 2,3000`
+	negativeTransacToAccs := `1,-1500
+2,-2500`
 	type args struct {
 		accs map[int]int
 		r    *csv.Reader
@@ -181,6 +183,21 @@ func Test_calculateBalance(t *testing.T) {
 			wantM: map[int]int{
 				1: 3000,
 				2: 5000,
+			},
+			wantErr: false,
+		},
+		{
+			name: "negativeTransacToAccs",
+			args: args{
+				accs: map[int]int{
+					1: 1000,
+					2: 2000,
+				},
+				r: csv.NewReader(strings.NewReader(negativeTransacToAccs)),
+			},
+			wantM: map[int]int{
+				1: -1000,
+				2: -1000,
 			},
 			wantErr: false,
 		},
