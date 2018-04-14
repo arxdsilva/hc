@@ -8,10 +8,8 @@ import (
 )
 
 func Test_readCSV(t *testing.T) {
-	accs := `
-	1,1000
-	2,2000
-	`
+	accs := `1,1000
+2,2000`
 	type args struct {
 		r *csv.Reader
 	}
