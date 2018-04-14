@@ -3,12 +3,17 @@ package main
 import (
 	"encoding/csv"
 	"reflect"
+	"strings"
 	"testing"
 )
 
 func Test_readCSV(t *testing.T) {
+	accs := `
+	1,1000
+	2,2000
+	`
 	type args struct {
-		r csv.Reader
+		r *csv.Reader
 	}
 	tests := []struct {
 		name    string
@@ -16,7 +21,17 @@ func Test_readCSV(t *testing.T) {
 		wantRec [][]string
 		wantErr bool
 	}{
-	// TODO: Add test cases.
+		{
+			name: "reads simple fields",
+			args: args{
+				r: csv.NewReader(strings.NewReader(accs)),
+			},
+			wantRec: [][]string{
+				[]string{"1", "1000"},
+				[]string{"2", "2000"},
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
