@@ -12,12 +12,17 @@ func generateAccountsFromRaw(file string) (accs map[int]int, err error) {
 	if err != nil {
 		return
 	}
+	defer func() { err = f.Close() }()
 	r := csv.NewReader(bufio.NewReader(f))
 	rec, err := r.ReadAll()
 	if err != nil {
 		return
 	}
-	return mapAccs(rec)
+	accs, err = mapAccs(rec)
+	if err != nil {
+		return
+	}
+	return
 }
 
 func mapAccs(accs [][]string) (map[int]int, error) {
