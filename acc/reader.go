@@ -13,16 +13,12 @@ func generateAccountsFromRaw(file string) (accs map[int64]int64, err error) {
 		return
 	}
 	r := csv.NewReader(bufio.NewReader(f))
-	_, err = readCSV(r)
+	_, err = r.ReadAll()
 	if err != nil {
 		return
 	}
 
 	return
-}
-
-func readCSV(r *csv.Reader) (rec [][]string, err error) {
-	return r.ReadAll()
 }
 
 func mapAccs(accs [][]string) (map[int]int, error) {
