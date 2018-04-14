@@ -76,6 +76,9 @@ func calculateBalance(accs map[int]int, r *csv.Reader) (m map[int]int, err error
 			continue
 		}
 		accs[accID] = accs[accID] + transaction
+		if accs[accID] < 0 {
+			accs[accID] = accs[accID] - 500
+		}
 	}
 	m = accs
 	return
