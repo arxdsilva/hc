@@ -7,18 +7,17 @@ import (
 	"strconv"
 )
 
-func generateAccountsFromRaw(file string) (accs map[int64]int64, err error) {
+func generateAccountsFromRaw(file string) (accs map[int]int, err error) {
 	f, err := os.Open(file)
 	if err != nil {
 		return
 	}
 	r := csv.NewReader(bufio.NewReader(f))
-	_, err = r.ReadAll()
+	rec, err := r.ReadAll()
 	if err != nil {
 		return
 	}
-
-	return
+	return mapAccs(rec)
 }
 
 func mapAccs(accs [][]string) (map[int]int, error) {
