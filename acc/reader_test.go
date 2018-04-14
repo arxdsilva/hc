@@ -44,3 +44,29 @@ func Test_readCSV(t *testing.T) {
 		})
 	}
 }
+
+func Test_mapAccs(t *testing.T) {
+	type args struct {
+		accs [][]string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    map[int]int
+		wantErr bool
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := mapAccs(tt.args.accs)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("mapAccs() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("mapAccs() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
