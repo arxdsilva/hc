@@ -83,6 +83,14 @@ func Test_mapAccs(t *testing.T) {
 			},
 			wantErr: false,
 		},
+		{
+			name: "simple map from slice of slices with parse error",
+			args: args{
+				accs: [][]string{[]string{"a", "-2"}},
+			},
+			want:    map[int]int{},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -91,7 +99,7 @@ func Test_mapAccs(t *testing.T) {
 				t.Errorf("mapAccs() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if !reflect.DeepEqual(got, tt.want) && len(got) > 0 {
 				t.Errorf("mapAccs() = %v, want %v", got, tt.want)
 			}
 		})
