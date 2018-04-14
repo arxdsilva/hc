@@ -69,6 +69,20 @@ func Test_mapAccs(t *testing.T) {
 			},
 			wantErr: false,
 		},
+		{
+			name: "simple map from slice of slices with negative numbers",
+			args: args{
+				accs: [][]string{
+					[]string{"1", "-2"},
+					[]string{"2", "2"},
+				},
+			},
+			want: map[int]int{
+				1: -2,
+				2: 2,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
