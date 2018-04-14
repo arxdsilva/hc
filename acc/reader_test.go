@@ -73,3 +73,29 @@ func Test_mapAccs(t *testing.T) {
 		})
 	}
 }
+
+func Test_generateAccountsFromRaw(t *testing.T) {
+	type args struct {
+		file string
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantAccs map[int]int
+		wantErr  bool
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotAccs, err := generateAccountsFromRaw(tt.args.file)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("generateAccountsFromRaw() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotAccs, tt.wantAccs) {
+				t.Errorf("generateAccountsFromRaw() = %v, want %v", gotAccs, tt.wantAccs)
+			}
+		})
+	}
+}
