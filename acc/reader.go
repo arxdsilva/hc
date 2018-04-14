@@ -6,6 +6,6 @@ func generateAccountsFromRaw(file string) (accs map[int64]int64, err error) {
 	return
 }
 
-func readCSV(r csv.Reader) (rec [][]string, err error) {
+func readCSV(r *csv.Reader) (rec [][]string, err error) {
 	return
 }
