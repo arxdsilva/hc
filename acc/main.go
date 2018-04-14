@@ -17,8 +17,12 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("reading file: %v\n", args[2])
-	_, err = calcBalancesAfterTransactions(args[2], accs)
+	balanceMap, err := calcBalancesAfterTransactions(args[2], accs)
 	if err != nil {
 		log.Fatal(err)
+	}
+	fmt.Printf("\nFinal balances:\n")
+	for acc, balance := range balanceMap {
+		fmt.Printf("%v,%v\n", acc, balance)
 	}
 }
