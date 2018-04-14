@@ -40,3 +40,10 @@ func mapAccs(accs [][]string) (map[int]int, error) {
 	}
 	return accsMap, nil
 }
+
+func calcBalancesAfterTransactions(file string, accs map[int]int) map[int]int {
+	// read transacoes.csv
+	// for ea transaction
+	// calc balance from acc after transaction
+	return accs
+}
