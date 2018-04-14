@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 )
@@ -75,6 +77,7 @@ func Test_mapAccs(t *testing.T) {
 }
 
 func Test_generateAccountsFromRaw(t *testing.T) {
+	wd, _ := os.Getwd()
 	type args struct {
 		file string
 	}
@@ -84,7 +87,17 @@ func Test_generateAccountsFromRaw(t *testing.T) {
 		wantAccs map[int]int
 		wantErr  bool
 	}{
-	// TODO: Add test cases.
+		{
+			name: "sample file test",
+			args: args{
+				file: filepath.Join(wd, "contas.csv"),
+			},
+			wantAccs: map[int]int{
+				1: 2,
+				2: 3,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
