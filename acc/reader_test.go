@@ -51,6 +51,14 @@ func Test_mapAccs(t *testing.T) {
 			want:    map[int]int{},
 			wantErr: true,
 		},
+		{
+			name: "simple map from slice of slices with parse error in second parameter",
+			args: args{
+				accs: [][]string{[]string{"1", "a"}},
+			},
+			want:    map[int]int{},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
