@@ -48,7 +48,14 @@ func calcBalancesAfterTransactions(file string, accs map[int]int) (map[int]int, 
 		return nil, err
 	}
 	defer func() { err = f.Close() }()
-	r := csv.NewReader(bufio.NewReader(f))
+	accs, err = calculateBalance(accs, csv.NewReader(bufio.NewReader(f)))
+	if err != nil {
+		return nil, err
+	}
+	return accs, err
+}
+
+func calculateBalance(accs map[int]int, r *csv.Reader) (m map[int]int, err error) {
 	for {
 		rec, err := r.Read()
 		if err == io.EOF {
@@ -70,5 +77,6 @@ func calcBalancesAfterTransactions(file string, accs map[int]int) (map[int]int, 
 		}
 		accs[accID] = accs[accID] + transaction
 	}
-	return accs, err
+	m = accs
+	return
 }

@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/csv"
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -149,6 +151,49 @@ func Test_calcBalancesAfterTransactions(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("calcBalancesAfterTransactions() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_calculateBalance(t *testing.T) {
+	positiveTransacToAccs := `1,2000
+2,3000`
+	type args struct {
+		accs map[int]int
+		r    *csv.Reader
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantM   map[int]int
+		wantErr bool
+	}{
+		{
+			name: "positiveTransacToAccs",
+			args: args{
+				accs: map[int]int{
+					1: 1000,
+					2: 2000,
+				},
+				r: csv.NewReader(strings.NewReader(positiveTransacToAccs)),
+			},
+			wantM: map[int]int{
+				1: 3000,
+				2: 5000,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotM, err := calculateBalance(tt.args.accs, tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("calculateBalance() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotM, tt.wantM) {
+				t.Errorf("calculateBalance() = %v, want %v", gotM, tt.wantM)
 			}
 		})
 	}
