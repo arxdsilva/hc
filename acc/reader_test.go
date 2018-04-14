@@ -161,6 +161,7 @@ func Test_calculateBalance(t *testing.T) {
 2,3000`
 	negativeTransacToAccs := `1,-1500
 2,-2500`
+	depositToNegAccShouldNotAddDebit := `1,100`
 	type args struct {
 		accs map[int]int
 		r    *csv.Reader
@@ -199,6 +200,17 @@ func Test_calculateBalance(t *testing.T) {
 				1: -1000,
 				2: -1000,
 			},
+			wantErr: false,
+		},
+		{
+			name: "depositToNegAccShouldNotAddDebit",
+			args: args{
+				accs: map[int]int{
+					1: -1000,
+				},
+				r: csv.NewReader(strings.NewReader(depositToNegAccShouldNotAddDebit)),
+			},
+			wantM:   map[int]int{1: -900},
 			wantErr: false,
 		},
 	}
