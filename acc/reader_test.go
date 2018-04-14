@@ -112,3 +112,44 @@ func Test_generateAccountsFromRaw(t *testing.T) {
 		})
 	}
 }
+
+func Test_calcBalancesAfterTransactions(t *testing.T) {
+	type args struct {
+		file string
+		accs map[int]int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    map[int]int
+		wantErr bool
+	}{
+		{
+			name: "calculate positive deposits",
+			args: args{
+				file: "transacoes.csv",
+				accs: map[int]int{
+					1: 1000,
+					2: 2000,
+				},
+			},
+			want: map[int]int{
+				1: 3000,
+				2: 5000,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := calcBalancesAfterTransactions(tt.args.file, tt.args.accs)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("calcBalancesAfterTransactions() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("calcBalancesAfterTransactions() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
