@@ -55,7 +55,20 @@ func Test_mapAccs(t *testing.T) {
 		want    map[int]int
 		wantErr bool
 	}{
-	// TODO: Add test cases.
+		{
+			name: "simple map from slice of slices",
+			args: args{
+				accs: [][]string{
+					[]string{"1", "2"},
+					[]string{"2", "2"},
+				},
+			},
+			want: map[int]int{
+				1: 2,
+				2: 2,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
