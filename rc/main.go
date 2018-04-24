@@ -2,13 +2,18 @@ package opts
 
 func main() {}
 
-type RuleSet struct{}
+type RuleSet struct {
+	dependencies map[string][]string
+}
 
 func NewRuleSet() *RuleSet {
-	return new(RuleSet)
+	rs := new(RuleSet)
+	rs.dependencies = map[string][]string{}
+	return rs
 }
 
 func (rs *RuleSet) AddDep(dep1, dep2 string) {
+	rs.dependencies[dep1] = append(rs.dependencies[dep1], dep2)
 	return
 }
 
