@@ -4,10 +4,12 @@ func main() {}
 
 type RuleSet struct {
 	dependencies map[string][]string
+	conflicts    map[string][]string
 }
 
 func NewRuleSet() *RuleSet {
 	rs := new(RuleSet)
+	rs.conflicts = map[string][]string{}
 	rs.dependencies = map[string][]string{}
 	return rs
 }
@@ -21,7 +23,8 @@ func (rs *RuleSet) IsCoherent() (b bool) {
 	return
 }
 
-func (rs *RuleSet) AddConflict(a, b string) {
+func (rs *RuleSet) AddConflict(part1, part2 string) {
+	rs.conflicts[part1] = append(rs.conflicts[part1], part2)
 	return
 }
 
