@@ -6,6 +6,14 @@ import (
 	"testing"
 )
 
+func TestDependsAdded(t *testing.T) {
+	s := NewRuleSet()
+	s.AddDep("a", "a")
+	if _, ok := s.dependencies["a"]; !ok {
+		t.Error("s.IsCoherent failed")
+	}
+}
+
 func TestDependsAA(t *testing.T) {
 	s := NewRuleSet()
 	s.AddDep("a", "a")
