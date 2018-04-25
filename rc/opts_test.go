@@ -22,6 +22,26 @@ func TestDependsAA(t *testing.T) {
 	}
 }
 
+func TestIsMutualExclusiveTrue(t *testing.T) {
+	deps := map[string][]string{
+		"a": []string{"b"},
+		"b": []string{"a"},
+	}
+	if ok := isMutualExclusive("a", []string{"b"}, deps); !ok {
+		t.Errorf("isMutualExclusive failed: got %v, wanted: %v", ok, !ok)
+	}
+}
+
+func TestIsMutualExclusiveFalse(t *testing.T) {
+	deps := map[string][]string{
+		"a": []string{"b"},
+		"b": []string{"c"},
+	}
+	if ok := isMutualExclusive("a", []string{"b"}, deps); ok {
+		t.Errorf("isMutualExclusive failed: got %v, wanted: %v", ok, !ok)
+	}
+}
+
 func TestDependsAB_BA(t *testing.T) {
 	s := NewRuleSet()
 	s.AddDep("a", "b")
