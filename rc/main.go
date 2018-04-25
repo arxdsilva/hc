@@ -19,7 +19,40 @@ func (rs *RuleSet) AddDep(dep1, dep2 string) {
 	return
 }
 
+// IsCoherent Implement the algorithm that
+// checks that an instance of that data structure
+// is coherent, that is, that no option can depend,
+// directly or indirectly, on another option and
+// also be mutually exclusive with it.
 func (rs *RuleSet) IsCoherent() (b bool) {
+	for part, dependencies := range rs.dependencies {
+		mx := isMutualExclusive(part, dependencies, rs.dependencies)
+		if mx {
+			return
+		}
+	}
+	return true
+}
+
+// terrible, basically I want to find out if in deps slice
+// has a the key of depsMap and if p (other map key)
+// is equals to a element in depsP2 map
+// this is where It gets to mutex
+func isMutualExclusive(p string, deps []string, depsMap map[string][]string) (mx bool) {
+	for nextPart, depsP2 := range depsMap {
+		if nextPart == p {
+			continue
+		}
+		for _, element := range deps {
+			if element == nextPart {
+				for _, el2 := range depsP2 {
+					if el2 == p {
+						return true
+					}
+				}
+			}
+		}
+	}
 	return
 }
 
